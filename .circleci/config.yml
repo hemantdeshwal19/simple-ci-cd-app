@@ -82,9 +82,13 @@ workflows:
     jobs:
       - lint
 
-      - test:
+      - sast-scan:
           requires:
             - lint
+
+      - test:
+          requires:
+            - sast-scan
 
       - docker-build-and-push:
           requires:
