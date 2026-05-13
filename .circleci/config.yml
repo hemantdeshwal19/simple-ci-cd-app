@@ -8,11 +8,11 @@ jobs:
     steps:
       - checkout
 
-      -run:
+      - run:
         name: Install Dependencies
         command: npm install
 
-      -run:
+      - run:
         name: Run tests
         command: npm test
 
@@ -21,5 +21,6 @@ workflows:
 
   ci_pipeline:
     jobs:
+
       - test
 
