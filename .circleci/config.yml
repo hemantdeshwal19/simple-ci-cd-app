@@ -72,25 +72,18 @@ jobs:
 
   trivy-scan:
     docker:
-     - image: aquasec/trivy:latest
+      - image: aquasec/trivy:latest
 
-  steps:
-    - checkout
+    steps:
+      - checkout
 
-    - setup_remote_docker
+      - setup_remote_docker
 
-    - run:
-        name: Build Docker Image
-        command: |
-          docker build -t simple-ci-cd-app:latest .
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t simple-ci-cd-app:latest .
 
-    - run:
-        name: Scan Docker Image
-        command: |
-          trivy image \
-          --severity HIGH,CRITICAL \
-          --exit-code 1 \
-          simple-ci-cd-app:latest
       - run:
           name: Scan Docker Image
           command: |
@@ -115,8 +108,7 @@ jobs:
       - run:
           name: Docker Login
           command: |
-            echo $DOCKER_PASSWORD \
-            | docker login -u $DOCKER_USERNAME --password-stdin
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
       - run:
           name: Push Docker Image
