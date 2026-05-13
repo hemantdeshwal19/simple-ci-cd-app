@@ -16,6 +16,7 @@ jobs:
       - run:
           name: Run ESLint
           command: npm run lint
+
   test:
     docker:
       - image: cimg/node:20.10
@@ -64,14 +65,14 @@ jobs:
 workflows:
   version: 2
 
-      secure_pipeline:
-        jobs:
-          - lint
+  secure_pipeline:
+    jobs:
+      - lint
 
-          ci_pipeline:
-            jobs:
-              - test
+      - test:
+          requires:
+            - lint
 
-          - docker-build-and-push:
-            requires:
-              - test
+      - docker-build-and-push:
+          requires:
+            - test
