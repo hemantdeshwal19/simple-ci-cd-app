@@ -15,7 +15,7 @@ jobs:
 
       - run:
           name: Install Dependencies
-          command: npm install
+          command: npm ci
 
       - save_cache:
           key: node-cache-{{ checksum "package-lock.json" }}
@@ -23,10 +23,10 @@ jobs:
             - node_modules
 
       - run:
-          name: Run Tests
+          name: Run Unit Tests
           command: npm test
 
-  docker-build:
+  docker-build-and-push:
     machine: true
 
     steps:
@@ -35,26 +35,17 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t simple-ci-cd-app:latest .
-
-      - run:
-          name: Verify Docker Image
-          command: docker images
-
-  deploy:
-    machine: true
-
-    steps:
-      - checkout
+            docker build -t $DOCKER_USERNAME/simple-ci-cd-app:latest .
 
       - run:
           name: Docker Login
           command: |
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
       - run:
           name: Push Docker Image
           command: |
-            docker push simple-ci-cd-app:latest .
+            docker push $DOCKER_USERNAME/simple-ci-cd-app:latest
 
 workflows:
   version: 2
@@ -63,10 +54,6 @@ workflows:
     jobs:
       - test
 
-      - docker-build:
+      - docker-build-and-push:
           requires:
             - test
-
-      - deploy:
-          requires:
-            - docker-build
