@@ -64,10 +64,14 @@ jobs:
 workflows:
   version: 2
 
-  ci_pipeline:
-    jobs:
-      - test
+      secure_pipeline:
+        jobs:
+          - lint
 
-      - docker-build-and-push:
-          requires:
-            - test
+          ci_pipeline:
+            jobs:
+              - test
+
+          - docker-build-and-push:
+            requires:
+              - test
