@@ -17,6 +17,19 @@ jobs:
           name: Run ESLint
           command: npm run lint
 
+  sast-scan:
+    docker:
+      - image: returntocorp/semgrep
+
+    steps:
+      - checkout
+
+      - run:
+          name: Run Semgrep SAST Scan
+          command: |
+            semgrep --config=auto .
+
+
   test:
     docker:
       - image: cimg/node:20.10
