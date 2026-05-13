@@ -37,6 +37,18 @@ jobs:
           command: |
             docker build -t simple-ci-cd-app .
 
+  deploy:
+    machine: true
+
+    steps:
+      - checkout
+
+      - run:
+          name: Push Docker Image
+           command: |
+               docker login
+               docker push image
+
 workflows:
   version: 2
 
