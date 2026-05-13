@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-            docker push hemantdeshwal19/simple-ci-cd-app:latest
+            docker push image
 
 workflows:
   version: 2
