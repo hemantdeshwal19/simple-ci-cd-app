@@ -1,6 +1,7 @@
 version: 2.1
 
 jobs:
+
   test:
     docker:
       - image: cimg/node:20.10
@@ -32,10 +33,9 @@ jobs:
       - checkout
 
       - run:
-        name: build docker Image
-        command: |
-          docker-build -t simple-ci-cd-app .
-
+          name: Build Docker Image
+          command: |
+            docker build -t simple-ci-cd-app .
 
 workflows:
   version: 2
@@ -44,6 +44,5 @@ workflows:
     jobs:
       - test
       - docker-build:
-        requires:
-          - test
-
+          requires:
+            - test
