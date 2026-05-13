@@ -9,18 +9,16 @@ jobs:
       - checkout
 
       - run:
-        name: Install Dependencies
-        command: npm install
+          name: Install Dependencies
+          command: npm install
 
       - run:
-        name: Run tests
-        command: npm test
+          name: Run tests
+          command: npm test
 
 workflows:
   version: 2
 
   ci_pipeline:
     jobs:
-
       - test
-
