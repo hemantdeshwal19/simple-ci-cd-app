@@ -44,10 +44,14 @@ jobs:
       - checkout
 
       - run:
+          name: Docker login
+          command: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - run:
           name: Push Docker Image
-           command: |
-               docker login
-               docker push image
+          command: |
+            docker push hemantdeshwal19/simple-ci-cd-app:latest
 
 workflows:
   version: 2
@@ -55,6 +59,11 @@ workflows:
   ci_pipeline:
     jobs:
       - test
+
       - docker-build:
           requires:
             - test
+
+      - deploy:
+          requires:
+            - docker-build
