@@ -37,6 +37,10 @@ jobs:
           command: |
             docker build -t hemantdeshwal/simple-ci-cd-app:latest .
 
+      - run:
+          name: Verify Docker Image
+          command: docker images
+
   deploy:
     machine: true
 
@@ -44,14 +48,13 @@ jobs:
       - checkout
 
       - run:
-          name: Docker login
+          name: Docker Login
           command: |
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-
       - run:
           name: Push Docker Image
           command: |
-            docker push hemantcyber/simple-ci-cd-app:latest
+            docker push hemantdeshwal/simple-ci-cd-app:latest
 
 workflows:
   version: 2
