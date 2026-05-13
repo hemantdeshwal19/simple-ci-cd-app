@@ -2,6 +2,20 @@ version: 2.1
 
 jobs:
 
+  lint:
+    docker:
+      - image: cimg/node:20.10
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install Dependencies
+          command: npm ci
+
+      - run:
+          name: Run ESLint
+          command: npm run lint
   test:
     docker:
       - image: cimg/node:20.10
