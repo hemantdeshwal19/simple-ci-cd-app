@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t hemantdeshwal/simple-ci-cd-app:latest .
+            docker build -t simple-ci-cd-app:latest .
 
       - run:
           name: Verify Docker Image
@@ -54,7 +54,7 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-            docker push hemantdeshwal/simple-ci-cd-app:latest
+            docker push simple-ci-cd-app:latest .
 
 workflows:
   version: 2
