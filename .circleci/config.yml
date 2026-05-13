@@ -25,9 +25,25 @@ jobs:
           name: Run Tests
           command: npm test
 
+  docker-build:
+    machine: true
+
+    steps:
+      - checkout
+
+      - run:
+        name: build docker Image
+        command: |
+          docker-build -t simple-ci-cd-app .
+
+
 workflows:
   version: 2
 
   ci_pipeline:
     jobs:
       - test
+      - docker-build:
+        requires:
+          - test
+
