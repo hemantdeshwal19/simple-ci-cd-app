@@ -9,21 +9,20 @@ jobs:
       - checkout
 
       - restore_cache:
-        keys:
-         - node-cache-{{checksum "package-lock.json"}}
-
+          keys:
+            - node-cache-{{ checksum "package-lock.json" }}
 
       - run:
           name: Install Dependencies
-          command: npm ci
+          command: npm install
 
       - save_cache:
-        key: node-cache-{{checksum "package-lock.json"}}
-        paths:
-          - node_modules
+          key: node-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
 
       - run:
-          name: Run tests
+          name: Run Tests
           command: npm test
 
 workflows:
