@@ -71,36 +71,26 @@ jobs:
 
 
   trivy-scan:
-    machine:
-      image: ubuntu-2204:current
+    docker:
+     - image: aquasec/trivy:latest
 
-    steps:
-      - checkout
+  steps:
+    - checkout
 
-      - run:
-          name: Build Docker Image
-          command: |
-            docker build -t simple-ci-cd-app:latest .
+    - setup_remote_docker
 
-      - run:
-          name: Install Trivy
-          command: |
-            sudo apt-get update
+    - run:
+        name: Build Docker Image
+        command: |
+          docker build -t simple-ci-cd-app:latest .
 
-            sudo apt-get install wget apt-transport-https gnupg lsb-release -y
-
-            wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key \
-            | gpg --dearmor \
-            | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
-
-            echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] \
-            https://aquasecurity.github.io/trivy-repo/deb generic main" \
-            | sudo tee -a /etc/apt/sources.list.d/trivy.list
-
-            sudo apt-get update
-
-            sudo apt-get install trivy -y
-
+    - run:
+        name: Scan Docker Image
+        command: |
+          trivy image \
+          --severity HIGH,CRITICAL \
+          --exit-code 1 \
+          simple-ci-cd-app:latest
       - run:
           name: Scan Docker Image
           command: |
