@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t simple-ci-cd-app .
+            docker build -t hemantdeshwal/simple-ci-cd-app:latest .
 
   deploy:
     machine: true
@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-            docker push image
+            docker push hemantcyber/simple-ci-cd-app:latest
 
 workflows:
   version: 2
