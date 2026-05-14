@@ -4,7 +4,7 @@ jobs:
 
   lint:
     docker:
-      - image: cimg/node:20.10
+      - image: -cimg/node:20.19-browsers
 
     steps:
       - checkout
