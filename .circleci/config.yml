@@ -4,7 +4,7 @@ jobs:
 
   lint:
     docker:
-      - image: cimg/node:20.10
+      - image: cimg/node:20.19
 
     steps:
       - checkout
@@ -33,7 +33,7 @@ jobs:
 
   test:
     docker:
-      - image: cimg/node:20.10
+      - image: cimg/node:20.19
 
     steps:
       - checkout
@@ -71,13 +71,28 @@ jobs:
 
 
   trivy-scan:
-    docker:
-      - image: aquasec/trivy:latest
+    machine:
+      image: ubuntu-2204:current
 
     steps:
       - checkout
 
-      - setup_remote_docker
+      - run:
+          name: Install Trivy
+          command: |
+            sudo apt-get update
+            sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+
+            wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key \
+            | gpg --dearmor \
+            | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+
+            echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] \
+            https://aquasecurity.github.io/trivy-repo/deb generic main" \
+            | sudo tee -a /etc/apt/sources.list.d/trivy.list
+
+            sudo apt-get update
+            sudo apt-get install trivy -y
 
       - run:
           name: Build Docker Image
